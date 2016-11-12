@@ -4,23 +4,35 @@ import './App.css';
 /**
  * React component for each square on the tic-tac-toe board
  */
-function Square(props) {
-  let cellContent;
-  if (props.data.value) {
-    cellContent = <div className="occupied">{props.data.value}</div>;
-  } else {
-    cellContent = (
-      <input className="available"
-        type="button"
-        name="move"
-        value={props.data.id} />
+class Square extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    e.preventDefault();
+    this.props.handleMove(e.target.value);
+  }
+
+  render() {
+    let cellContent;
+    if (this.props.data.value) {
+      cellContent = <div className="occupied">{this.props.data.value}</div>;
+    } else {
+      cellContent = (
+        <button className="available"
+          name="move"
+          onClick={this.handleClick}
+          value={this.props.data.id} />
+      );
+    }
+    return (
+      <td className="square">
+        {cellContent}
+      </td>
     );
   }
-  return (
-    <td className="square">
-      {cellContent}
-    </td>
-  );
 }
 
 /**
@@ -31,19 +43,19 @@ function Board(props) {
     <table className="board">
       <tbody>
         <tr>
-          <Square data={props.gameState[0]} />
-          <Square data={props.gameState[1]} />
-          <Square data={props.gameState[2]} />
+          <Square data={props.gameState[0]} handleMove={props.handleMove} />
+          <Square data={props.gameState[1]} handleMove={props.handleMove} />
+          <Square data={props.gameState[2]} handleMove={props.handleMove} />
         </tr>
         <tr>
-          <Square data={props.gameState[3]} />
-          <Square data={props.gameState[4]} />
-          <Square data={props.gameState[5]} />
+          <Square data={props.gameState[3]} handleMove={props.handleMove} />
+          <Square data={props.gameState[4]} handleMove={props.handleMove} />
+          <Square data={props.gameState[5]} handleMove={props.handleMove} />
         </tr>
         <tr>
-          <Square data={props.gameState[6]} />
-          <Square data={props.gameState[7]} />
-          <Square data={props.gameState[8]} />
+          <Square data={props.gameState[6]} handleMove={props.handleMove} />
+          <Square data={props.gameState[7]} handleMove={props.handleMove} />
+          <Square data={props.gameState[8]} handleMove={props.handleMove} />
         </tr>
       </tbody>
     </table>
@@ -55,7 +67,7 @@ function Board(props) {
  */
 function Control(props) {
   return (
-    <input type="button" value="New Game" />
+    <button name="restart">New Game</button>
   );
 }
 
@@ -63,22 +75,37 @@ function Control(props) {
  * Main Application
  */
 class App extends React.Component {
-  render() {
-    const gameState = [
-      {id: 1},
-      {id: 2},
-      {id: 3, value: 'X'},
-      {id: 4},
-      {id: 5, value: 'O'},
-      {id: 6, value: 'X'},
-      {id: 7},
-      {id: 8},
-      {id: 9, value: 'O'}
-    ];
+  constructor(props) {
+    super(props);
 
+    this.handleMove = this.handleMove.bind(this);
+
+    this.state = {
+      game: [
+        {id: 1},
+        {id: 2},
+        {id: 3},
+        {id: 4},
+        {id: 5},
+        {id: 6},
+        {id: 7},
+        {id: 8},
+        {id: 9}
+      ]
+    }
+  }
+
+  handleMove(position) {
+    const gameState = this.state.game.slice();
+
+    gameState[position-1].value = 'X';
+    this.setState({game: gameState});
+  }
+
+  render() {
     return (
       <form className="App">
-        <Board gameState={gameState} />
+        <Board gameState={this.state.game} handleMove={this.handleMove} />
         <Control />
       </form>
     );

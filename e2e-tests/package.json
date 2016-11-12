@@ -1,0 +1,12 @@
+{
+  "name": "tic-tac-toe-e2e-tests",
+  "version": "1.0.0",
+  "description": "The End-to-End tests for the tic-tac-toe game",
+  "scripts": {
+    "test": "nightwatch --config nightwatch.conf.json"
+  },
+  "dependencies": {
+    "chromedriver": "^2.25.1",
+    "nightwatch": "^0.9.8"
+  }
+}
