@@ -42,4 +42,12 @@ describe('The tic-tac-toe game', function () {
         game.assert.containsText('@position4Value', 'X');
     });
 
+    it('Should reset the game the start button is used', function (client) {
+        game.navigate();
+
+        game.makeMove(6);
+        game.restartGame()
+        game.expect.element('@position6Button').to.be.visible;
+    });
+
 });
