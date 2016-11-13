@@ -66,6 +66,31 @@ var makeError = require('make-error'),
     },
 
     /**
+     * Gets the occupied positions from game state.
+     *
+     * @param      {object}  gameState  An object with two keys (X and O) where
+     *                                  the value of each is the current moves
+     *                                  that player has already made.
+     * @return     {object}  The occupied positions.
+     */
+    getOccupiedPositionsFromGameState = function (gameState) {
+        var result = {};
+
+        [1,2,3,4,5,6,7,8,9].forEach(
+            function (i) {
+                if (gameState.X.indexOf(i) !== -1) {
+                    result[i] = 'X';
+                }
+                if (gameState.O.indexOf(i) !== -1) {
+                    result[i] = 'O';
+                }
+            }
+        );
+
+        return result;
+    },
+
+    /**
      * { function_description }
      *
      * @param      {object}  gameState  An object with two keys (X and O) where
@@ -179,6 +204,14 @@ var makeError = require('make-error'),
                 availableMoves: {
                     get: function () {
                         return availableMoves;
+                    }
+                },
+                /**
+                 * Which positions are occupied including which player
+                 */
+                occupiedMoves: {
+                    get: function () {
+                        return getOccupiedPositionsFromGameState(gameState);
                     }
                 },
                 /**

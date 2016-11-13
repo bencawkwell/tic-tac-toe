@@ -21,6 +21,9 @@ describe('the game module', function () {
             expect(result).to.have.property('availableMoves')
                 .and.to.deep.equal([1,2,3,4,5,6,7,8,9]);
 
+            expect(result).to.have.property('occupiedMoves')
+                .and.to.deep.equal({});
+
             expect(result).to.have.property('currentPlayer')
                 .and.to.equal('X');
 
@@ -40,6 +43,8 @@ describe('the game module', function () {
             expect(gameChanger.bind(game, 'status', 'over')).to.throw(TypeError);
 
             expect(gameChanger.bind(game, 'availableMoves', [1,2,3])).to.throw(TypeError);
+
+            expect(gameChanger.bind(game, 'occupiedMoves', {1:'X'})).to.throw(TypeError);
 
             expect(gameChanger.bind(game, 'currentPlayer', 'O')).to.throw(TypeError);
 
@@ -61,6 +66,9 @@ describe('the game module', function () {
 
             expect(result).to.have.property('availableMoves')
                 .and.to.deep.equal([2,3,4,5,6,7,8,9]);
+
+            expect(result).to.have.property('occupiedMoves')
+                .and.to.deep.equal({1: 'X'});
 
             expect(result).to.have.property('currentPlayer')
                 .and.to.equal('O');
