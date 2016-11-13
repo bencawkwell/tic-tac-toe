@@ -31,9 +31,9 @@ class App extends React.Component {
 
   handleResponseFromBackend(res) {
     if (res instanceof Error) {
-      this.setState({feedback: res.message});
+      this.setState({error: res.message});
     } else {
-      this.setState({isLoaded: true, game: res, feedback: null});
+      this.setState({isLoaded: true, game: res, error: null});
     }
   }
 
@@ -52,7 +52,7 @@ class App extends React.Component {
         {this.state.isLoaded ?
           <Game
             game={this.state.game}
-            feedback={this.state.feedback}
+            error={this.state.error}
             handleNewGame={this.handleNewGame}
             handleMove={this.handleMove} /> :
           <Loader />}

@@ -63,7 +63,8 @@ app.get('/api/game/:id', [
         if (game instanceof Game.Game) {
             result = {
                     id: req.params.id,
-                    tiles: tilesHelper(game)
+                    tiles: tilesHelper(game),
+                    winner: game.winner
                 };
         } else {
             status = 404;
@@ -89,7 +90,8 @@ app.post('/api/game/:id', [
             ai.makeMove(game);
             result = {
                 id: req.params.id,
-                tiles: tilesHelper(game)
+                tiles: tilesHelper(game),
+                winner: game.winner
             };
         } else {
             status = 404;

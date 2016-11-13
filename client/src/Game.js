@@ -3,7 +3,7 @@ import React from 'react';
 /**
  * React component for each square on the tic-tac-toe board
  */
-class Square extends React.Component {
+class Tile extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
@@ -18,6 +18,10 @@ class Square extends React.Component {
     let cellContent;
     if (this.props.tile.value) {
       cellContent = <div className="occupied">{this.props.tile.value}</div>;
+
+    } else if (this.props.winner) {
+      cellContent = <div></div>;
+
     } else {
       cellContent = (
         <button className="available"
@@ -42,19 +46,19 @@ function Board(props) {
     <table className="board">
       <tbody>
         <tr>
-          <Square tile={props.tiles[0]} handleMove={props.handleMove} />
-          <Square tile={props.tiles[1]} handleMove={props.handleMove} />
-          <Square tile={props.tiles[2]} handleMove={props.handleMove} />
+          <Tile tile={props.tiles[0]} winner={props.winner} handleMove={props.handleMove} />
+          <Tile tile={props.tiles[1]} winner={props.winner} handleMove={props.handleMove} />
+          <Tile tile={props.tiles[2]} winner={props.winner} handleMove={props.handleMove} />
         </tr>
         <tr>
-          <Square tile={props.tiles[3]} handleMove={props.handleMove} />
-          <Square tile={props.tiles[4]} handleMove={props.handleMove} />
-          <Square tile={props.tiles[5]} handleMove={props.handleMove} />
+          <Tile tile={props.tiles[3]} winner={props.winner} handleMove={props.handleMove} />
+          <Tile tile={props.tiles[4]} winner={props.winner} handleMove={props.handleMove} />
+          <Tile tile={props.tiles[5]} winner={props.winner} handleMove={props.handleMove} />
         </tr>
         <tr>
-          <Square tile={props.tiles[6]} handleMove={props.handleMove} />
-          <Square tile={props.tiles[7]} handleMove={props.handleMove} />
-          <Square tile={props.tiles[8]} handleMove={props.handleMove} />
+          <Tile tile={props.tiles[6]} winner={props.winner} handleMove={props.handleMove} />
+          <Tile tile={props.tiles[7]} winner={props.winner} handleMove={props.handleMove} />
+          <Tile tile={props.tiles[8]} winner={props.winner} handleMove={props.handleMove} />
         </tr>
       </tbody>
     </table>
@@ -90,10 +94,15 @@ class Control extends React.Component {
  * React component for the game view
  */
 function Game(props) {
+  let feedback = props.error;
+
+  if (props.game.winner) {
+    feedback = "Player " + props.game.winner + " has won!";
+  }
   return (
     <form className="App">
-      <Board tiles={props.game.tiles} handleMove={props.handleMove} />
-      <Control feedback={props.feedback} handleNewGame={props.handleNewGame} />
+      <Board winner={props.game.winner} tiles={props.game.tiles} handleMove={props.handleMove} />
+      <Control feedback={feedback} handleNewGame={props.handleNewGame} />
     </form>
   );
 }
