@@ -4,6 +4,8 @@
   "description": "A simple REST based service for playing tic-tac-toe.",
   "main": "app.js",
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
     "make-error": "^1.2.1",
     "requirefrom": "^0.2.1",
     "uuid": "^2.0.3"
