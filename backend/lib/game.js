@@ -141,24 +141,32 @@ var makeError = require('make-error'),
     getWinnerFromGameState = function (gameState) {
         var winner = null,
             winningPositions = [
-                '1-2-3', // across top row
-                '4-5-6', // across middle row
-                '7-8-9', // across bottom row
-                '1-4-7', // down left column
-                '2-5-8', // down middle column
-                '3-6-9', // down right column
-                '1-5-9', // backslash \ diagonal
-                '3-5-7'  // forward-slash / diagonal
+                [1, 2, 3], // across top row
+                [4, 5, 6], // across middle row
+                [7, 8, 9], // across bottom row
+                [1, 4, 7], // down left column
+                [2, 5, 8], // down middle column
+                [3, 6, 9], // down right column
+                [1, 5, 9], // backslash \ diagonal
+                [3, 5, 7]  // forward-slash / diagonal
             ],
-            positionsForXString = gameState.X.sort().join('-'),
-            positionsForOString = gameState.O.sort().join('-');
+            hasWin = function (moves, win) {
+                if (
+                    moves.indexOf(win[0]) >= 0 &&
+                    moves.indexOf(win[1]) >= 0 &&
+                    moves.indexOf(win[2]) >= 0
+                ) {
+                    return true;
+                }
+                return false;
+            };
 
         winningPositions.every(function (win) {
-            if (positionsForXString.indexOf(win) >= 0) {
+            if (hasWin(gameState.X, win)) {
                 winner = 'X';
                 return false;
             }
-            if (positionsForOString.indexOf(win) >= 0) {
+            if (hasWin(gameState.O, win)) {
                 winner = 'O'
                 return false;
             }

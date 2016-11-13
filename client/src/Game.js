@@ -11,7 +11,7 @@ class Tile extends React.Component {
 
   handleClick(e) {
     e.preventDefault();
-    this.props.handleMove(parseInt(e.target.value));
+    this.props.handleMove(parseInt(e.target.value, 10));
   }
 
   render() {

@@ -133,6 +133,25 @@ describe('the game module', function () {
 
             expect(game.winner).to.be.null;
         });
+
+        it('should find a winner regardless of which other tiles are selected', function () {
+            game.registerMove('X', 6);
+            game.registerMove('O', 7);
+            game.registerMove('X', 2);   // The end result looks like:
+            game.registerMove('O', 3);   //  O | X | O
+            game.registerMove('X', 9);   //  O |   | X
+            game.registerMove('O', 4);   //  O | X | X
+            game.registerMove('X', 8);
+            game.registerMove('O', 1);
+
+            expect(game.status).to.equal('over');
+
+            expect(game.winner).to.equal('O');
+
+            expect(game.availableMoves).to.deep.equal([]);
+
+            expect(game.currentPlayer).to.be.null;
+        });
     });
 
 });
