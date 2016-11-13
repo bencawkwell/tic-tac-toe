@@ -92,6 +92,16 @@ describe('the game module', function () {
             expect(game.registerMove.bind(game, 'O', 1)).to.throw(Game.PositionUnavailableError);
         });
 
+        it('should throw an GameOverError when the game is already over', function () {
+            game.registerMove('X', 1);
+            game.registerMove('O', 4);
+            game.registerMove('X', 2);
+            game.registerMove('O', 5);
+            game.registerMove('X', 3);
+
+            expect(game.registerMove.bind(game, 'O', 6)).to.throw(Game.GameOverError);
+        });
+
         it('should update the winner when the game is over', function () {
             game.registerMove('X', 1);
             game.registerMove('O', 4);
@@ -108,7 +118,7 @@ describe('the game module', function () {
             expect(game.currentPlayer).to.be.null;
         });
 
-        it('should leave the winner null when the game is drawn', function () {
+        it('should leave the winner null when the game is a draw', function () {
             game.registerMove('X', 1)
                 .registerMove('O', 4)
                 .registerMove('X', 2)   // The end result looks like:

@@ -6,12 +6,14 @@
   "dependencies": {
     "make-error": "^1.2.1",
     "requirefrom": "^0.2.1",
-    "uuid": "^2.0.3",
-    "validator": "^6.1.0"
+    "uuid": "^2.0.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^3.1.2"
+    "mocha": "^3.1.2",
+    "sinon": "^1.17.6",
+    "sinon-chai": "^2.8.0",
+    "validator": "^6.1.0"
   },
   "scripts": {
     "test": "mocha"

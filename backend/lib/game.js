@@ -17,6 +17,7 @@
 var makeError = require('make-error'),
 
     // custom errors
+    GameOverError            = makeError('GameOverError'),
     InvalidPlayerError       = makeError('InvalidPlayerError'),
     InvalidPositionError     = makeError('InvalidPositionError'),
     IncorrectPlayerError     = makeError('IncorrectPlayerError'),
@@ -242,10 +243,15 @@ var makeError = require('make-error'),
                  * @return     {Game}    Returns the Game instance
                  */
                 registerMove: {
+                    writable: true,
                     value: function (player, position) {
                         var emptyPositions;
 
-                        // first attempt to apply the move, any invalid moved will trigger
+                        if (availableMoves.length === 0) {
+                            throw new GameOverError('The game is already over');
+                        }
+
+                        // Attempt to apply the move, any invalid moved will trigger
                         // an error here.
                         updateGameState(gameState, player, position);
 
@@ -274,6 +280,7 @@ var makeError = require('make-error'),
 module.exports = {
     create: create,
     Game: Game,
+    GameOverError: GameOverError,
     InvalidPlayerError: InvalidPlayerError,
     InvalidPositionError: InvalidPositionError,
     IncorrectPlayerError: IncorrectPlayerError,
