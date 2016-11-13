@@ -1,74 +1,13 @@
 import React from 'react';
+import Game from './Game';
+import Client from './Client';
 import './App.css';
 
 /**
- * React component for each square on the tic-tac-toe board
+ * React component for a very simple Loader
  */
-class Square extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(e) {
-    e.preventDefault();
-    this.props.handleMove(parseInt(e.target.value));
-  }
-
-  render() {
-    let cellContent;
-    if (this.props.tile.value) {
-      cellContent = <div className="occupied">{this.props.tile.value}</div>;
-    } else {
-      cellContent = (
-        <button className="available"
-          name="move"
-          onClick={this.handleClick}
-          value={this.props.tile.id} />
-      );
-    }
-    return (
-      <td className="tile">
-        {cellContent}
-      </td>
-    );
-  }
-}
-
-/**
- * React component for the entire tic-tac-toe board
- */
-function Board(props) {
-  return (
-    <table className="board">
-      <tbody>
-        <tr>
-          <Square tile={props.tiles[0]} handleMove={props.handleMove} />
-          <Square tile={props.tiles[1]} handleMove={props.handleMove} />
-          <Square tile={props.tiles[2]} handleMove={props.handleMove} />
-        </tr>
-        <tr>
-          <Square tile={props.tiles[3]} handleMove={props.handleMove} />
-          <Square tile={props.tiles[4]} handleMove={props.handleMove} />
-          <Square tile={props.tiles[5]} handleMove={props.handleMove} />
-        </tr>
-        <tr>
-          <Square tile={props.tiles[6]} handleMove={props.handleMove} />
-          <Square tile={props.tiles[7]} handleMove={props.handleMove} />
-          <Square tile={props.tiles[8]} handleMove={props.handleMove} />
-        </tr>
-      </tbody>
-    </table>
-  );
-}
-
-/**
- * React component to start/reset the game
- */
-function Control(props) {
-  return (
-    <button name="restart">New Game</button>
-  );
+function Loader() {
+  return <span>Loading...</span>
 }
 
 /**
@@ -78,36 +17,46 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.handleNewGame = this.handleNewGame.bind(this);
     this.handleMove = this.handleMove.bind(this);
 
     this.state = {
-      game: {
-        id: 'some-uuid-here',
-        tiles: [
-          {id: 1},
-          {id: 2},
-          {id: 3},
-          {id: 4},
-          {id: 5},
-          {id: 6},
-          {id: 7},
-          {id: 8},
-          {id: 9}
-        ]
-      }
-    };
+      isLoaded: false
+    }
   }
 
+  componentDidMount() {
+    this.handleNewGame();
+  }
+
+  handleResponseFromBackend(res) {
+    if (res instanceof Error) {
+      this.setState({feedback: res.message});
+    } else {
+      this.setState({isLoaded: true, game: res, feedback: null});
+    }
+  }
+
+  handleNewGame() {
+    this.setState({isLoaded: false});
+    Client.newGame(this.handleResponseFromBackend.bind(this));
+  }
 
   handleMove(tileId) {
+    Client.makeMove(this.state.game.id, tileId, this.handleResponseFromBackend.bind(this));
   }
 
   render() {
     return (
-      <form className="App">
-        <Board tiles={this.state.game.tiles} handleMove={this.handleMove} />
-        <Control />
-      </form>
+      <div className="App">
+        {this.state.isLoaded ?
+          <Game
+            game={this.state.game}
+            feedback={this.state.feedback}
+            handleNewGame={this.handleNewGame}
+            handleMove={this.handleMove} /> :
+          <Loader />}
+      </div>
     );
   }
 }
