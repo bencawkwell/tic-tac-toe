@@ -20,7 +20,7 @@ This will install all the dependencies, start up the server, and launch the appl
 
 This project is composed of three main parts:
 
-* Backend API (/backend): A simple Node.js server that exposes a basic API fro playing tic-tac-toe against an AI while enforcing the game rules.
+* Backend API (backend): A simple Node.js server that exposes a basic API fro playing tic-tac-toe against an AI while enforcing the game rules.
 * Frontend application (client): An application using React that consumes the backend API and presents a tic-tac-toe board that can be interacted with.
 * End-to-End tests (e2e-tests): A very small test suite using Nightwatch.js to test the combination of the Backend and Frontend as one application with a real browser.
 

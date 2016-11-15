@@ -11,7 +11,7 @@ This project has only bee tested with the following:
 
 ## Running
 
-This is really part of a bigger project which includes a backend server (also written in Node.js). Although a Node.js server is included here for development purposes, it is only designed to spawned from the parent directory, and will probably fail to start unless the backend server has already been started.
+This is really part of a bigger project which includes a backend server (also written in Node.js). Although a Node.js server is included here for development purposes, it is only designed to be spawned from the parent directory, and will probably fail to start unless the backend server has already been started.
 
 Therefore it is highly recommended to follow the instructions from the root directory of this entire project.
 
