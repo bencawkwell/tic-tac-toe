@@ -47,7 +47,7 @@ To make a move, for example in the top right corner:
 curl -H 'Content-Type: application/json' --data '{"tileId":3}' http://localhost:3001/api/game/88c9aee6-1e11-4342-932f-f59039c76180
 ```
 
-Which will return the response:
+Note, you will always be player X, and the AI will be player O. The above will return the following response:
 
 ```json
 {
@@ -73,7 +73,7 @@ Which will return the response:
 }
 ```
 
-The winner property will be populated with either "X" or "O". If there are no more tiles available and winner is still null, then it can be assumed the game has ended with a draw.
+This shows that the AI played the middle row left tile. The winner property will be populated with either "X" or "O" once either yourself or the AI has made a winning move. If there are no more tiles available and winner is still null, then it can be assumed the game has ended with a draw.
 
 ## More detailed summary
 
